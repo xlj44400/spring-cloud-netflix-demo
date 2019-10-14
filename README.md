@@ -2,11 +2,11 @@
 
 This branch contains the new stack demo. To see the same demo with Spring-Cloud-Netflix stack, check out the branch `old-stack`.
 
-After running all the apps execute POST at `localhost:8080/application` passing 
+After running all the apps execute POST at `localhost:9080/application` passing 
 `cardApplication.json` as body.
 
 ```bash
-http POST localhost:8080/application < cardApplication.json
+http POST localhost:9080/application < cardApplication.json
 ```
 
 - new card applications registered via `card-service`
@@ -14,12 +14,17 @@ http POST localhost:8080/application < cardApplication.json
 - `fraud-service` called by `card-service` and `user-service` to verify 
 card applications and new users
 
+If you want to run a bigger number of requests, you can use the `ab` benchmarking tool:
 
 ```bash
-http GET olgahost:9083/ignored/test
+ab -p cardApplication.json -T application/json -c 10 -n 20000 http://localhost:9080/application
+```
+
+```bash
+http GET localhost:9083/ignored/test
 ```
 ```bash
-http GET olgahost:9083/ignored/test/allowed
+http GET localhost:9083/ignored/test/allowed
 ```
 - `ignored` service with `test` endpoint returning 404 via Proxy and `/test/allowed` 
 endpoint returning response from the service.
